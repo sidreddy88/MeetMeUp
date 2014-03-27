@@ -28,7 +28,7 @@
     [super viewDidLoad];
 //    self.searcItem.delegate = self
     searchItem.delegate = self;
-    
+
 
     
 }
@@ -135,7 +135,10 @@
 }
 
 
-
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+     [myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
+}
     
 
 

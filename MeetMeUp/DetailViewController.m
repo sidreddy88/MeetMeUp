@@ -11,8 +11,9 @@
 @interface DetailViewController ()
 
 
+@property (strong, nonatomic) IBOutlet UILabel *labelShowingDescription;
 
-@property (strong, nonatomic) IBOutlet UITextView *labelShowingDescription;
+
 @property (strong, nonatomic) IBOutlet UILabel *labelShowingRsvp;
 
 @property (strong, nonatomic) IBOutlet UIButton *buttonDisplayingLink;
@@ -34,9 +35,14 @@
 	self.navigationItem.title = self.title;
 //  labelShowingRsvp.text = self.rsvpCounts;
     labelShowingDescription.text = self.description;
-    [buttonDisplayingLink setTitle:stringWithUrl forState:UIControlStateNormal];
+    [buttonDisplayingLink setTitle:@"Link to meetup event" forState:UIControlStateNormal];
     NSLog (@"count = %@", rsvpCounts);
 }
+
+- (IBAction)onButtonPressed:(id)sender {
+    [self performSegueWithIdentifier:@"Displaying Web Info" sender:self];
+}
+
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -50,9 +56,6 @@
             
             
             vc.urlString = stringWithUrl;
-            
-            
-            
             
         }
     }
