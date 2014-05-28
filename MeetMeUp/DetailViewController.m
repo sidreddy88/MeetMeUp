@@ -51,8 +51,7 @@
         if ([segue.destinationViewController isKindOfClass:[WebViewController class]]) {
             
             WebViewController *vc = (WebViewController *)segue.destinationViewController;
-            
-            
+
             vc.urlString = self.event.eventUrl;
             
         }
@@ -60,10 +59,5 @@
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

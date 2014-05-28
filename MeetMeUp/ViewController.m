@@ -30,18 +30,16 @@
 {
     [super viewDidLoad];
     self.meetUpManager = [[MeetUpManager alloc]init];
-//    self.searcItem.delegate = self
     searchItem.delegate = self;
 
 
-    
 }
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
-    
-     NSString *stringToSearch = [self gettingTheUrlAtWhichToLookAt];
+
+    NSString *stringToSearch = [self gettingTheUrlAtWhichToLookAt];
     NSURL *url = [NSURL URLWithString: stringToSearch];
 
     [self.meetUpManager getDataforURL:url WithResult:^(BOOL success, NSArray *array, NSError *error) {
@@ -49,11 +47,11 @@
         tableViewArray = array;
         [myTableView reloadData];
     }];
-    
+
 
 
     [textField resignFirstResponder];
-    
+
     return YES;
 }
 
