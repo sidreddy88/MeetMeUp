@@ -8,16 +8,19 @@
 
 #import "ViewController.h"
 #import "DetailViewController.h"
+#import "MeetUpManager.h"
+#import "Event.h"
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 {
     
     IBOutlet UITableView *myTableView;
     NSDictionary *events;
-    NSArray *firstValues;
+    NSArray *tableViewArray;
     NSInteger selectedRow;
     IBOutlet UITextField *searchItem;
 }
+@property (nonatomic, strong) MeetUpManager *meetUpManager;
 
 @end
 
@@ -26,6 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.meetUpManager = [[MeetUpManager alloc]init];
 //    self.searcItem.delegate = self
     searchItem.delegate = self;
 
@@ -38,17 +42,15 @@
     
     
      NSString *stringToSearch = [self gettingTheUrlAtWhichToLookAt];
-    
     NSURL *url = [NSURL URLWithString: stringToSearch];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        events = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
-        NSLog(@"I am new");
-        firstValues= [events objectForKey:@"results"];
+
+    [self.meetUpManager getDataforURL:url WithResult:^(BOOL success, NSArray *array, NSError *error) {
+
+        tableViewArray = array;
         [myTableView reloadData];
     }];
     
+
 
     [textField resignFirstResponder];
     
@@ -79,14 +81,14 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MeetMeUpCell"];
     
     
-    NSDictionary *eventDetails = [firstValues objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text = eventDetails[@"name"];
-    cell.detailTextLabel.text = eventDetails[@"venue"][@"address_1"];
-  //  NSLog (@"count = %i", eventDetails.count);
-    
+    Event *event = tableViewArray[indexPath.row];
+
+    cell.textLabel.text = event.name;
+    cell.detailTextLabel.text = event.address;
+
+
     return cell;
-    
+
     
 }
 
@@ -120,7 +122,7 @@
             
            DetailViewController *vc = (DetailViewController *)segue.destinationViewController;
             
-            NSDictionary *eventDetails = [firstValues objectAtIndex:selectedRow];
+            NSDictionary *eventDetails = [tableViewArray objectAtIndex:selectedRow];
             vc.title = eventDetails[@"name"];
             vc.rsvpCounts = eventDetails[@"yes_rsvp_count"];
             vc.description = eventDetails[@"description"];
@@ -145,7 +147,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return firstValues.count;
+    return tableViewArray.count;
 }
 - (void)didReceiveMemoryWarning
 {
