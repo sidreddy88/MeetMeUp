@@ -22,6 +22,9 @@
 }
 @property (nonatomic, strong) MeetUpManager *meetUpManager;
 
+#define UIActivityIndicatorHeight 50.0
+#define UIActivityIndicatorWidth 50.0
+
 @end
 
 @implementation ViewController
@@ -29,6 +32,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+
+
     self.meetUpManager = [[MeetUpManager alloc]init];
     searchItem.delegate = self;
 
@@ -43,6 +49,7 @@
     NSURL *url = [NSURL URLWithString: stringToSearch];
 
     [self.meetUpManager getDataforURL:url WithResult:^(BOOL success, NSArray *array, NSError *error) {
+
 
         tableViewArray = array;
         [myTableView reloadData];
