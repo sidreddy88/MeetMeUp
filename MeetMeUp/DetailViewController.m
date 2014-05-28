@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "WebViewController.h"
+#import "Event.h"
 @interface DetailViewController ()
 
 
@@ -24,19 +25,16 @@
 @end
 
 @implementation DetailViewController
-@synthesize title, rsvpCounts,labelShowingRsvp,description,labelShowingDescription, arrayHoldingGroupInformation, stringWithUrl, buttonDisplayingLink;
 
-
+@synthesize event;
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	self.navigationItem.title = self.title;
-//  labelShowingRsvp.text = self.rsvpCounts;
-    labelShowingDescription.text = self.description;
-    [buttonDisplayingLink setTitle:@"Link to meetup event" forState:UIControlStateNormal];
-    NSLog (@"count = %@", rsvpCounts);
+    self.labelShowingDescription.text =self.event.description;
+    [self.buttonDisplayingLink setTitle:@"Link to meetup event" forState:UIControlStateNormal];
 }
 
 - (IBAction)onButtonPressed:(id)sender {
@@ -55,7 +53,7 @@
             WebViewController *vc = (WebViewController *)segue.destinationViewController;
             
             
-            vc.urlString = stringWithUrl;
+            vc.urlString = self.event.eventUrl;
             
         }
     }

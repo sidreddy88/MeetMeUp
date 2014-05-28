@@ -7,13 +7,11 @@
 //
 
 #import "ViewController.h"
+@class Event;
+
 
 @interface DetailViewController : ViewController
 
-@property NSString *title;
-@property NSString *rsvpCounts;
-@property NSString *description;
-@property NSDictionary *arrayHoldingGroupInformation;
-@property NSString *stringWithUrl;
+@property (nonatomic, weak) Event *event;
 
 @end

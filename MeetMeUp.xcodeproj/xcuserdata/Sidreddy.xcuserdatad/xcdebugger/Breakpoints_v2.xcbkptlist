@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MeetMeUp/DetailViewController.m"
-            timestampString = "417626159.84308"
+            timestampString = "422985945.276571"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "@implementation DetailViewController"
             landmarkType = "3">
          </BreakpointContent>

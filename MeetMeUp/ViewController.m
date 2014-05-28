@@ -95,18 +95,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    NSInteger row = [indexPath row];
     selectedRow = indexPath.row;
     
-    /*
-    DetailViewController *vc = [[DetailViewController alloc]init];
-    NSDictionary *eventDetails = [firstValues objectAtIndex:indexPath.row];
-    vc.title = eventDetails[@"name"];
-    vc.rsvpCounts = eventDetails[@"yes_rsvp_count"];
-    vc.description = eventDetails[@"description"];
-   
-    [self.navigationController pushViewController:vc  animated:YES];
-    */
 }
     
 
@@ -122,25 +112,9 @@
            DetailViewController *vc = (DetailViewController *)segue.destinationViewController;
 
             Event *event = tableViewArray[selectedRow];
-            vc.title = event.name;
-            vc.rsvpCounts = eventDetails[@"yes_rsvp_count"];
-            vc.description = eventDetails[@"description"];
-            vc.arrayHoldingGroupInformation = eventDetails[@"group"];
-            vc. stringWithUrl = eventDetails[@"event_url"];
 
+            vc.event = event;
 
-
-            
-            NSDictionary *eventDetails = [tableViewArray objectAtIndex:selectedRow];
-            vc.title = eventDetails[@"name"];
-            vc.rsvpCounts = eventDetails[@"yes_rsvp_count"];
-            vc.description = eventDetails[@"description"];
-            vc.arrayHoldingGroupInformation = eventDetails[@"group"];
-            vc. stringWithUrl = eventDetails[@"event_url"];
-
-            
-            
-           
             
         }
     }
@@ -158,10 +132,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return tableViewArray.count;
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 @end
