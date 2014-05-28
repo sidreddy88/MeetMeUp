@@ -27,6 +27,8 @@
     NSLog(@"request = %@", request);
 
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+        
         self. events = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
         self.array= [self.events objectForKey:@"results"];
 
@@ -39,6 +41,10 @@
 
             event.name = tempDict[@"name"];
             event.address = tempDict[@"venue"][@"address_1"];
+            event.rsvpCounts = tempDict[@"yes_rsvp_count"];
+            event.description = tempDict[@"description"];
+            event. eventUrl = tempDict[@"event_url"];
+
 
             [finalArray addObject:event];
 
@@ -53,9 +59,6 @@
     }];
     
     
-
-
-
 
 
 }

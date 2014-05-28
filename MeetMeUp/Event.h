@@ -12,6 +12,10 @@
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *description;
+@property (nonatomic, copy) NSString *eventUrl;
+@property (nonatomic, copy) NSString *rsvpCounts;
+
 
 
 @end

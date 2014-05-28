@@ -61,7 +61,6 @@
 
 
     
-    
     NSString *finalString;
     
     NSString *frontPortionOfTheUrl = @"https://api.meetup.com/2/open_events.json?zip=60604&text=";
@@ -121,6 +120,16 @@
         if ([segue.destinationViewController isKindOfClass:[DetailViewController class]]) {
             
            DetailViewController *vc = (DetailViewController *)segue.destinationViewController;
+
+            Event *event = tableViewArray[selectedRow];
+            vc.title = event.name;
+            vc.rsvpCounts = eventDetails[@"yes_rsvp_count"];
+            vc.description = eventDetails[@"description"];
+            vc.arrayHoldingGroupInformation = eventDetails[@"group"];
+            vc. stringWithUrl = eventDetails[@"event_url"];
+
+
+
             
             NSDictionary *eventDetails = [tableViewArray objectAtIndex:selectedRow];
             vc.title = eventDetails[@"name"];
