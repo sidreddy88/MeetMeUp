@@ -56,6 +56,8 @@
 }
 
 - (NSString *) gettingTheUrlAtWhichToLookAt {
+
+
     
     
     NSString *finalString;
@@ -81,7 +83,7 @@
     
     cell.textLabel.text = eventDetails[@"name"];
     cell.detailTextLabel.text = eventDetails[@"venue"][@"address_1"];
-    NSLog (@"count = %i", eventDetails.count);
+  //  NSLog (@"count = %i", eventDetails.count);
     
     return cell;
     
