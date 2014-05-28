@@ -8,16 +8,19 @@
 
 #import "ViewController.h"
 #import "DetailViewController.h"
+#import "MeetUpManager.h"
+#import "Event.h"
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 {
     
     IBOutlet UITableView *myTableView;
     NSDictionary *events;
-    NSArray *firstValues;
+    NSArray *tableViewArray;
     NSInteger selectedRow;
     IBOutlet UITextField *searchItem;
 }
+@property (nonatomic, strong) MeetUpManager *meetUpManager;
 
 @end
 
@@ -26,6 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.meetUpManager = [[MeetUpManager alloc]init];
 //    self.searcItem.delegate = self
     searchItem.delegate = self;
 
@@ -38,17 +42,15 @@
     
     
      NSString *stringToSearch = [self gettingTheUrlAtWhichToLookAt];
-    
     NSURL *url = [NSURL URLWithString: stringToSearch];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        events = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&connectionError];
-        NSLog(@"I am new");
-        firstValues= [events objectForKey:@"results"];
+
+    [self.meetUpManager getDataforURL:url WithResult:^(BOOL success, NSArray *array, NSError *error) {
+
+        tableViewArray = array;
         [myTableView reloadData];
     }];
     
+
 
     [textField resignFirstResponder];
     
@@ -58,7 +60,6 @@
 - (NSString *) gettingTheUrlAtWhichToLookAt {
 
 
-    
     
     NSString *finalString;
     
@@ -79,14 +80,14 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MeetMeUpCell"];
     
     
-    NSDictionary *eventDetails = [firstValues objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text = eventDetails[@"name"];
-    cell.detailTextLabel.text = eventDetails[@"venue"][@"address_1"];
-  //  NSLog (@"count = %i", eventDetails.count);
-    
+    Event *event = tableViewArray[indexPath.row];
+
+    cell.textLabel.text = event.name;
+    cell.detailTextLabel.text = event.address;
+
+
     return cell;
-    
+
     
 }
 
@@ -94,18 +95,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    NSInteger row = [indexPath row];
     selectedRow = indexPath.row;
     
-    /*
-    DetailViewController *vc = [[DetailViewController alloc]init];
-    NSDictionary *eventDetails = [firstValues objectAtIndex:indexPath.row];
-    vc.title = eventDetails[@"name"];
-    vc.rsvpCounts = eventDetails[@"yes_rsvp_count"];
-    vc.description = eventDetails[@"description"];
-   
-    [self.navigationController pushViewController:vc  animated:YES];
-    */
 }
     
 
@@ -119,17 +110,11 @@
         if ([segue.destinationViewController isKindOfClass:[DetailViewController class]]) {
             
            DetailViewController *vc = (DetailViewController *)segue.destinationViewController;
-            
-            NSDictionary *eventDetails = [firstValues objectAtIndex:selectedRow];
-            vc.title = eventDetails[@"name"];
-            vc.rsvpCounts = eventDetails[@"yes_rsvp_count"];
-            vc.description = eventDetails[@"description"];
-            vc.arrayHoldingGroupInformation = eventDetails[@"group"];
-            vc. stringWithUrl = eventDetails[@"event_url"];
 
-            
-            
-           
+            Event *event = tableViewArray[selectedRow];
+
+            vc.event = event;
+
             
         }
     }
@@ -145,12 +130,8 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return firstValues.count;
+    return tableViewArray.count;
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 @end
